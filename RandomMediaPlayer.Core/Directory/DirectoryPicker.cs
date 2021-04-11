@@ -7,6 +7,7 @@ namespace RandomMediaPlayer.Core.Directory
     public abstract class DirectoryPicker : IDirectoryPicker
     {
         public string[] AllowedExtentions { get; protected set; }
+        public System.Uri Directory { get => directory; }
         protected System.Uri directory;
         protected List<IDisplayable> displayables = null;
 

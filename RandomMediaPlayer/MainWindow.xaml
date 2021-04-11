@@ -18,11 +18,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Button x:Name="NextDisplayable" Content="Next" Margin="10" Width="50" Height="50" Background="Gray" Foreground="White" Click="NextDisplayable_Click"/>
             <Button x:Name="SelectDir" Grid.Row="1" Margin="10" Width="50" Height="50" Background="Gray" Foreground="White" Click="SelectDir_Click">
                 <TextBlock Text="Select folder" TextWrapping="Wrap" TextAlignment="Center"/>
             </Button>
+            <CheckBox Margin="5" Grid.Row="2" Name="UseExternalView" Foreground="White" VerticalAlignment="Center" IsChecked="False" Content="Use external view" Click="UseExternalView_Click"/>
         </Grid>
     </Grid>
 </Window>

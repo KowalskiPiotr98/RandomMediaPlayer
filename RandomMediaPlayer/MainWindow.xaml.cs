@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using RandomMediaPlayer.Core.Displayers;
 using RandomMediaPlayer.PhotoShower;
+using RandomMediaPlayer.PhotoShower.PhotosDirectory;
 using System.Windows;
 
 namespace RandomMediaPlayer
@@ -11,6 +12,7 @@ namespace RandomMediaPlayer
     public partial class MainWindow : Window
     {
         private IDisplayer displayer;
+        private System.Uri directory;
         public MainWindow()
         {
             InitializeComponent();
@@ -22,8 +24,8 @@ namespace RandomMediaPlayer
             var result = folderPicker.ShowDialog();
             if (result.HasValue && result.Value)
             {
-                var dir = folderPicker.FileName.Substring(0, folderPicker.FileName.LastIndexOf('\\'));
-                displayer = new PhotoDisplayer(DisplayArea, new System.Uri(dir));
+                directory = new System.Uri(folderPicker.FileName.Substring(0, folderPicker.FileName.LastIndexOf('\\')));
+                CreateDisplayer();
             }
         }
 
@@ -35,6 +37,28 @@ namespace RandomMediaPlayer
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             displayer?.Refresh();
+        }
+
+        private void UseExternalView_Click(object sender, RoutedEventArgs e)
+        {
+            CreateDisplayer();
+        }
+
+        private void CreateDisplayer()
+        {
+            if (directory is null)
+            {
+                return;
+            }
+            displayer?.Hide();
+            if (UseExternalView.IsChecked.Value)
+            {
+                displayer = new ExternalDisplayer(new PhotoDirectoryPicker(directory));
+            }
+            else
+            {
+                displayer = new PhotoDisplayer(DisplayArea, directory);
+            }
         }
     }
 }

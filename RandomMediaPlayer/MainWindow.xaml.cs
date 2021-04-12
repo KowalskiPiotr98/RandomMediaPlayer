@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
+using RandomMediaPlayer.Core.Directory;
 using RandomMediaPlayer.Core.Displayers;
+using RandomMediaPlayer.MoviePlayer;
 using RandomMediaPlayer.PhotoShower;
 using RandomMediaPlayer.PhotoShower.PhotosDirectory;
 using System.Windows;
@@ -43,6 +45,10 @@ namespace RandomMediaPlayer
         {
             CreateDisplayer();
         }
+        private void DisplayableTypeSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            CreateDisplayer();
+        }
 
         private void CreateDisplayer()
         {
@@ -53,12 +59,22 @@ namespace RandomMediaPlayer
             displayer?.Hide();
             if (UseExternalView.IsChecked.Value)
             {
-                displayer = new ExternalDisplayer(new PhotoDirectoryPicker(directory));
+                DirectoryPicker dirPicker = null;
+                if (PhotoRadioButton.IsChecked.Value)
+                {
+                    dirPicker = new PhotoDirectoryPicker(directory);
+                }
+                else if (VideoRadioButton.IsChecked.Value)
+                {
+                    dirPicker = new MovieDirectoryPicker(directory);
+                }
+                displayer = new ExternalDisplayer(dirPicker);
             }
             else
             {
                 displayer = new PhotoDisplayer(DisplayArea, directory);
             }
         }
+
     }
 }

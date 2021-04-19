@@ -1,12 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace RandomMediaPlayer.Core.Displayables
 {
     /// <summary>
     /// Object that can be displayed on the screen
     /// </summary>
-    public abstract class Displayable : IDisplayable
+    public abstract class Displayable : IDisplayable, IDisposable
     {
+        private bool disposedValue;
+
         public UIElement DisplayedOn { get; private set; }
         public string Source { get; private set; }
 
@@ -41,5 +44,24 @@ namespace RandomMediaPlayer.Core.Displayables
         protected abstract void Display();
         protected abstract void HideFromDisplay();
         protected abstract bool IsControlValidForGivenType(UIElement control);
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Hide();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

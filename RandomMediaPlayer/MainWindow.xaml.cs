@@ -72,9 +72,20 @@ namespace RandomMediaPlayer
             }
             else
             {
-                displayer = new PhotoDisplayer(DisplayArea, directory);
+                if (PhotoRadioButton.IsChecked.Value)
+                {
+                    displayer = new PhotoDisplayer(DisplayArea, directory);
+                }
+                else
+                {
+                    displayer = null;
+                }
             }
         }
 
+        private void RefreshDir_Click(object sender, RoutedEventArgs e)
+        {
+            displayer?.ReloadContent();
+        }
     }
 }

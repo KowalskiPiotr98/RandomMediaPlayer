@@ -5,6 +5,7 @@ namespace RandomMediaPlayer.Core.Directory
 {
     public interface IDirectoryPicker
     {
+        bool IsEmpty { get; }
         void ReadDisplayables();
         IEnumerable<IDisplayable> GetDisplayables();
         IDisplayable GetRandomDisplayable();

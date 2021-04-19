@@ -33,6 +33,10 @@ namespace RandomMediaPlayer.Core.Displayers
 
         protected Process Display()
         {
+            if (currentDisplayable is null)
+            {
+                return null;
+            }
             var pi = new ProcessStartInfo
             {
                 FileName = "explorer.exe",
@@ -40,5 +44,7 @@ namespace RandomMediaPlayer.Core.Displayers
             };
             return Process.Start(pi);
         }
+        public void ReloadContent() => directoryPicker.ReadDisplayables();
+
     }
 }

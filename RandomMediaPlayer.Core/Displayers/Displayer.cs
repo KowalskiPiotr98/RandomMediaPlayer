@@ -5,14 +5,14 @@ using System.Windows.Controls;
 
 namespace RandomMediaPlayer.Core.Displayers
 {
-    public abstract class Displayer : IDisplayer
+    public class Displayer : IDisplayer
     {
         private IDisplayable currentDisplayable;
         protected IDirectoryPicker directoryPicker;
         protected Grid displayArea;
         protected UIElement displayElement;
 
-        protected Displayer(Grid displayArea, UIElement displayElement)
+        public Displayer(Grid displayArea, UIElement displayElement)
         {
             this.displayArea = displayArea;
             this.displayElement = displayElement;
@@ -25,14 +25,29 @@ namespace RandomMediaPlayer.Core.Displayers
         }
         public void Next()
         {
+            Hide();
             currentDisplayable = directoryPicker.GetRandomDisplayable();
             Refresh();
         }
         public void Refresh()
         {
             Resize();
-            currentDisplayable.DisplayOn(displayElement);
+            try
+            {
+                currentDisplayable?.DisplayOn(displayElement);
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                directoryPicker.ReadDisplayables();
+                if (directoryPicker.IsEmpty)
+                {
+                    return;
+                }
+                Next();
+            }
         }
+        public void ReloadContent() => directoryPicker.ReadDisplayables();
         protected virtual void Resize() { }
+
     }
 }

@@ -6,6 +6,8 @@ namespace RandomMediaPlayer.Core.Directory
 {
     public abstract class DirectoryPicker : IDirectoryPicker
     {
+        private bool isEmpty;
+        public bool IsEmpty { get => isEmpty; }
         public string[] AllowedExtentions { get; protected set; }
         public System.Uri Directory { get => directory; }
         protected System.Uri directory;
@@ -21,9 +23,11 @@ namespace RandomMediaPlayer.Core.Directory
         {
             var files = System.IO.Directory.GetFiles(directory.LocalPath).Where(name => AllowedExtentions.Contains(name.Split('.').Last().ToLower())).ToList();
             var tempDisplayables = new List<IDisplayable>(files.Count);
+            isEmpty = true;
             foreach (var file in files)
             {
                 tempDisplayables.Add(CreateDisplayableFromLocalPath(file));
+                isEmpty = false;
             }
             displayables = tempDisplayables;
         }

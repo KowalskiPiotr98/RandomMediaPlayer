@@ -76,9 +76,9 @@ namespace RandomMediaPlayer
                 {
                     displayer = new PhotoDisplayer(DisplayArea, directory);
                 }
-                else
+                else if (VideoRadioButton.IsChecked.Value)
                 {
-                    displayer = null;
+                    displayer = new MovieDisplayer(DisplayArea, directory);
                 }
             }
         }

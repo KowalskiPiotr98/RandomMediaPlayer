@@ -31,7 +31,6 @@ namespace RandomMediaPlayer.Core.Displayers
         }
         public void Refresh()
         {
-            Resize();
             try
             {
                 currentDisplayable?.DisplayOn(displayElement);
@@ -47,7 +46,6 @@ namespace RandomMediaPlayer.Core.Displayers
             }
         }
         public void ReloadContent() => directoryPicker.ReadDisplayables();
-        protected virtual void Resize() { }
 
     }
 }

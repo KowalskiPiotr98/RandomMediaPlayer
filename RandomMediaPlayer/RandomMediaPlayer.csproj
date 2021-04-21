@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RandomMediaPlayer.Actions\RandomMediaPlayer.Actions.csproj" />
     <ProjectReference Include="..\RandomMediaPlayer.MoviePlayer\RandomMediaPlayer.MoviePlayer.csproj" />
     <ProjectReference Include="..\RandomMediaPlayer.PhotoShower\RandomMediaPlayer.PhotoShower.csproj" />
   </ItemGroup>

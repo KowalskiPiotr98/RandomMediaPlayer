@@ -1,10 +1,14 @@
 ﻿using Microsoft.Win32;
+using RandomMediaPlayer.Actions;
 using RandomMediaPlayer.Core.Directory;
 using RandomMediaPlayer.Core.Displayers;
 using RandomMediaPlayer.MoviePlayer;
 using RandomMediaPlayer.PhotoShower;
 using RandomMediaPlayer.PhotoShower.PhotosDirectory;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RandomMediaPlayer
 {
@@ -15,6 +19,7 @@ namespace RandomMediaPlayer
     {
         private IDisplayer displayer;
         private System.Uri directory;
+        private readonly List<IAutoAction> autoActions = new List<IAutoAction>();
         public MainWindow()
         {
             InitializeComponent();
@@ -81,11 +86,30 @@ namespace RandomMediaPlayer
                     displayer = new MovieDisplayer(DisplayArea, directory);
                 }
             }
+            foreach (var action in autoActions)
+            {
+                _ = action.Register(displayer);
+            }
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)
         {
             displayer?.ReloadContent();
+        }
+
+        private void AutoAdvanceTime_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var text = (sender as TextBox)?.Text;
+            var parsingResult = int.TryParse(text, out int seconds);
+            var autoAdvancer = autoActions.FirstOrDefault(a => a is AutoAdvancer);
+            if (autoAdvancer != null)
+            {
+                autoActions.Remove(autoAdvancer.Unregister());
+            }
+            if (!string.IsNullOrEmpty(text) && parsingResult && seconds > 0)
+            {
+                autoActions.Add(new AutoAdvancer(displayer, seconds));
+            }
         }
     }
 }

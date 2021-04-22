@@ -22,6 +22,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Button x:Name="NextDisplayable" Content="Next" Margin="10" Width="50" Height="50" Background="Gray" Foreground="White" Click="NextDisplayable_Click"/>
             <Button x:Name="SelectDir" Grid.Row="1" Margin="10" Width="50" Height="50" Background="Gray" Foreground="White" Click="SelectDir_Click">
@@ -45,6 +46,9 @@
                 <TextBox x:Name="AutoAdvanceTime" Text="0" Background="White" Grid.Column="1" VerticalContentAlignment="Center" Margin="2" LostFocus="AutoAdvanceTime_LostFocus"/>
                 <Button Content="OK" Grid.Column="2" Foreground="White" Background="Gray" Margin="1"/>
             </Grid>
+            <Button x:Name="FullscreenToggler" Grid.Row="6" Margin="10" Width="55" Height="50" Background="Gray" Foreground="White" Click="FullscreenToggler_Click">
+                <TextBlock Text="Toggle fullscreen" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
         </Grid>
     </Grid>
 </Window>

@@ -20,6 +20,7 @@ namespace RandomMediaPlayer
         private IDisplayer displayer;
         private System.Uri directory;
         private readonly List<IAutoAction> autoActions = new List<IAutoAction>();
+        private bool isFullScreen;
         public MainWindow()
         {
             InitializeComponent();
@@ -109,6 +110,22 @@ namespace RandomMediaPlayer
             if (!string.IsNullOrEmpty(text) && parsingResult && seconds > 0)
             {
                 autoActions.Add(new AutoAdvancer(displayer, seconds));
+            }
+        }
+
+        private void FullscreenToggler_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isFullScreen)
+            {
+                WindowStyle = WindowStyle.None;
+                WindowState = WindowState.Maximized;
+                isFullScreen = true;
+            }
+            else
+            {
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                WindowState = WindowState.Normal;
+                isFullScreen = false;
             }
         }
     }

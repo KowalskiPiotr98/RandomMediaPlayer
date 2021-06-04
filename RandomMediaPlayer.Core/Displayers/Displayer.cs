@@ -46,6 +46,9 @@ namespace RandomMediaPlayer.Core.Displayers
             }
         }
         public void ReloadContent() => directoryPicker.ReadDisplayables();
-
+        public void ClearDisplayArea()
+        {
+            displayArea.Children.Clear();
+        }
     }
 }

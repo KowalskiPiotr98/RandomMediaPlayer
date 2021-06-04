@@ -63,6 +63,10 @@ namespace RandomMediaPlayer
                 return;
             }
             displayer?.Hide();
+            if (displayer is Displayer internalDisplayer)
+            {
+                internalDisplayer.ClearDisplayArea();
+            }
             if (UseExternalView.IsChecked.Value)
             {
                 DirectoryPicker dirPicker = null;

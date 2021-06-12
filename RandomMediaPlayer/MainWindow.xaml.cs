@@ -164,13 +164,6 @@ namespace RandomMediaPlayer
                 isFullScreen = false;
             }
         }
-        private void TrackHistory_Click(object sender, RoutedEventArgs e)
-        {
-            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
-            {
-                historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
-            }
-        }
 
         private void Title_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

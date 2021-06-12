@@ -13,12 +13,13 @@ namespace RandomMediaPlayer.MoviePlayer
         private readonly Uri sourceUri;
         private bool paused = true;
         private readonly DispatcherTimer positionTimer;
+        private bool ignoreSliderUpdates;
         public Movie(string source) : base(source)
         {
             sourceUri = new Uri(Source);
             positionTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1)
+                Interval = TimeSpan.FromSeconds(0.1)
             };
             positionTimer.Tick += PositionTimer_Tick;
         }
@@ -27,14 +28,20 @@ namespace RandomMediaPlayer.MoviePlayer
         {
             MovieDisplay.Source = sourceUri;
             TimeSlider.Minimum = 0;
+            TimeSlider.LargeChange = 15;
             MovieDisplay.MediaOpened += SetSliderMax;
             MovieDisplay.MouseDown += PausePlay;
             TimeSlider.PreviewMouseUp += TimeSliderSeek;
+            TimeSlider.PreviewMouseDown += IgnoreUpdates;
             MovieDisplay.Play();
             positionTimer.Start();
             paused = false;
         }
 
+        private void IgnoreUpdates(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreSliderUpdates = true;
+        }
         private void PositionTimer_Tick(object sender, EventArgs e) => UpdateSlider();
 
         private void PausePlay(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -59,6 +66,7 @@ namespace RandomMediaPlayer.MoviePlayer
 
         private void TimeSliderSeek(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            ignoreSliderUpdates = false;
             if (DisplayedOn is null)
             {
                 return;
@@ -71,6 +79,10 @@ namespace RandomMediaPlayer.MoviePlayer
 
         private void UpdateSlider()
         {
+            if (ignoreSliderUpdates)
+            {
+                return;
+            }
             TimeSlider.Value = MovieDisplay.Position.TotalSeconds;
         }
 
@@ -84,6 +96,7 @@ namespace RandomMediaPlayer.MoviePlayer
             {
                 TimeSlider.Maximum = MovieDisplay.NaturalDuration.TimeSpan.TotalSeconds;
                 MovieDisplay.MediaOpened -= SetSliderMax;
+                positionTimer.Interval = TimeSpan.FromSeconds(MovieDisplay.NaturalDuration.TimeSpan.TotalSeconds / 3000);
             }
         }
 

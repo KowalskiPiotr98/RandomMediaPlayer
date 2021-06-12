@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="Random Media Player" Height="450" Width="800"
         Background="Black"
         SizeChanged="Window_SizeChanged"
         KeyDown="Window_KeyDown">
@@ -19,7 +19,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="Title" HorizontalAlignment="Center" Margin="2" Foreground="White" TextWrapping="Wrap" MouseDown="Title_MouseDown" MaxHeight="50"/>
+            <TextBlock x:Name="TitleDisplay" HorizontalAlignment="Center" Margin="2" Foreground="White" TextWrapping="Wrap" MouseDown="Title_MouseDown" MaxHeight="50"/>
             <Grid x:Name="DisplayArea" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </Grid>
         <Grid Grid.Column="1" Margin="10">

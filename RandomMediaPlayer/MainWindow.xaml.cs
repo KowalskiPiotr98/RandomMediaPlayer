@@ -40,7 +40,7 @@ namespace RandomMediaPlayer
         private void NextDisplayable_Click(object sender, RoutedEventArgs e)
         {
             displayer?.Next();
-            Title.Text = displayer?.CurrentDisplayableName;
+            TitleDisplay.Text = displayer?.CurrentDisplayableName;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -105,7 +105,7 @@ namespace RandomMediaPlayer
             {
                 TrackHistory.Visibility = Visibility.Collapsed;
             }
-            Title.Text = displayer?.CurrentDisplayableName;
+            TitleDisplay.Text = displayer?.CurrentDisplayableName;
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)
@@ -167,7 +167,7 @@ namespace RandomMediaPlayer
 
         private void Title_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Title.Visibility = Visibility.Collapsed;
+            TitleDisplay.Visibility = Visibility.Collapsed;
         }
     }
 }

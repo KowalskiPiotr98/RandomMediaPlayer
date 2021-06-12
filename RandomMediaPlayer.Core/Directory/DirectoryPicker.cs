@@ -1,4 +1,5 @@
 ﻿using RandomMediaPlayer.Core.Displayables;
+using RandomMediaPlayer.Core.Displayers.HistoryTracking;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,6 +44,28 @@ namespace RandomMediaPlayer.Core.Directory
             DisplayablesReadCheck();
             var random = new System.Random();
             return displayables.ElementAtOrDefault(random.Next(0, displayables.Count));
+        }
+        public IDisplayable GetRandomDisplayable(HistoryTracker<string> history)
+        {
+            if (!history.IsTracking)
+            {
+                return GetRandomDisplayable();
+            }
+            DisplayablesReadCheck();
+            var limitedDisplayables = history.LimitCollectionToNotInHistory(displayables, s => s.Source);
+            IDisplayable displayable;
+            if (!limitedDisplayables.Any())
+            {
+                history.Clear();
+                displayable = GetRandomDisplayable();
+            }
+            else
+            {
+                var random = new System.Random();
+                displayable = limitedDisplayables.ElementAtOrDefault(random.Next(0, limitedDisplayables.Count()));
+            }
+            history.AddToHistory(displayable.Source);
+            return displayable;
         }
 
         private void DisplayablesReadCheck()

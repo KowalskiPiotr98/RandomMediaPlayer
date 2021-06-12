@@ -95,6 +95,15 @@ namespace RandomMediaPlayer
             {
                 _ = action.Register(displayer);
             }
+            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            {
+                TrackHistory.Visibility = Visibility.Visible;
+                TrackHistory.IsChecked = historyDisplayer.HistoryTracker.IsTracking;
+            }
+            else
+            {
+                TrackHistory.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)
@@ -130,6 +139,14 @@ namespace RandomMediaPlayer
                 WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Normal;
                 isFullScreen = false;
+            }
+        }
+
+        private void TrackHistory_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            {
+                historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
             }
         }
     }

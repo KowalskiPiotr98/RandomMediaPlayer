@@ -13,7 +13,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="DisplayArea" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <StackPanel Orientation="Vertical">
+            <TextBlock x:Name="Title" HorizontalAlignment="Center" Margin="2" Foreground="White" TextWrapping="Wrap" MouseDown="Title_MouseDown" MaxHeight="50"/>
+            <Grid x:Name="DisplayArea" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </StackPanel>
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>

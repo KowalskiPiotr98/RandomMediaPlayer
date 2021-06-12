@@ -1,6 +1,7 @@
 ﻿using RandomMediaPlayer.Core.Directory;
 using RandomMediaPlayer.Core.Displayables;
 using RandomMediaPlayer.Core.Displayers.HistoryTracking;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,6 +14,7 @@ namespace RandomMediaPlayer.Core.Displayers
         protected Grid displayArea;
         protected UIElement displayElement;
         public HistoryTracker<string> HistoryTracker { get; }
+        public string CurrentDisplayableName => currentDisplayable?.Source.Split('\\').Last();
 
         public Displayer(Grid displayArea, UIElement displayElement)
         {

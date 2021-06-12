@@ -40,6 +40,7 @@ namespace RandomMediaPlayer
         private void NextDisplayable_Click(object sender, RoutedEventArgs e)
         {
             displayer?.Next();
+            Title.Text = displayer?.CurrentDisplayableName;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -104,6 +105,7 @@ namespace RandomMediaPlayer
             {
                 TrackHistory.Visibility = Visibility.Collapsed;
             }
+            Title.Text = displayer?.CurrentDisplayableName;
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)
@@ -161,6 +163,18 @@ namespace RandomMediaPlayer
                 WindowState = WindowState.Normal;
                 isFullScreen = false;
             }
+        }
+        private void TrackHistory_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            {
+                historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
+            }
+        }
+
+        private void Title_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Title.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -5,15 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="Random Media Player" Height="450" Width="800"
         Background="Black"
-        SizeChanged="Window_SizeChanged">
+        SizeChanged="Window_SizeChanged"
+        KeyDown="Window_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="DisplayArea" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TitleDisplay" HorizontalAlignment="Center" Margin="2" Foreground="White" TextWrapping="Wrap" MouseDown="Title_MouseDown" MaxHeight="50"/>
+            <Grid x:Name="DisplayArea" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </Grid>
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -31,7 +39,10 @@
             <Button x:Name="RefreshDir" Grid.Row="2" Margin="10" Width="50" Height="50" Background="Gray" Foreground="White" Click="RefreshDir_Click">
                 <TextBlock Text="Refresh folder" TextWrapping="Wrap" TextAlignment="Center"/>
             </Button>
-            <CheckBox Margin="5" Grid.Row="3" Name="UseExternalView" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="False" Content="Use external view" Click="UseExternalView_Click"/>
+            <StackPanel Grid.Row="3" Orientation="Vertical">
+                <CheckBox Margin="5" Name="UseExternalView" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="False" Content="Use external view" Click="UseExternalView_Click"/>
+                <CheckBox Margin="5" Name="TrackHistory" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Click="TrackHistory_Click" Visibility="Collapsed" Content="Track history"/>
+            </StackPanel>
             <StackPanel Grid.Row="4" Orientation="Vertical">
                 <RadioButton Content="Photo" IsChecked="True" Margin="5" HorizontalAlignment="Left" Foreground="White" GroupName="DisplayableType" x:Name="PhotoRadioButton" Checked="DisplayableTypeSelectionChanged"/>
                 <RadioButton Content="Video" IsChecked="False" Margin="5" HorizontalAlignment="Left" Foreground="White" GroupName="DisplayableType" x:Name="VideoRadioButton" Checked="DisplayableTypeSelectionChanged"/>

@@ -40,6 +40,7 @@ namespace RandomMediaPlayer
         private void NextDisplayable_Click(object sender, RoutedEventArgs e)
         {
             displayer?.Next();
+            TitleDisplay.Text = displayer?.CurrentDisplayableName;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -95,6 +96,16 @@ namespace RandomMediaPlayer
             {
                 _ = action.Register(displayer);
             }
+            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            {
+                TrackHistory.Visibility = Visibility.Visible;
+                TrackHistory.IsChecked = historyDisplayer.HistoryTracker.IsTracking;
+            }
+            else
+            {
+                TrackHistory.Visibility = Visibility.Collapsed;
+            }
+            TitleDisplay.Text = displayer?.CurrentDisplayableName;
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)
@@ -119,6 +130,27 @@ namespace RandomMediaPlayer
 
         private void FullscreenToggler_Click(object sender, RoutedEventArgs e)
         {
+            FullScreenToggle();
+        }
+
+        private void TrackHistory_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            {
+                historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
+            }
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape && isFullScreen)
+            {
+                FullScreenToggle();
+            }
+        }
+
+        private void FullScreenToggle()
+        {
             if (!isFullScreen)
             {
                 WindowStyle = WindowStyle.None;
@@ -131,6 +163,11 @@ namespace RandomMediaPlayer
                 WindowState = WindowState.Normal;
                 isFullScreen = false;
             }
+        }
+
+        private void Title_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            TitleDisplay.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -9,5 +9,6 @@
         /// </summary>
         void ReloadContent();
         void Hide();
+        string CurrentDisplayableName { get; }
     }
 }

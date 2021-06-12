@@ -1,18 +1,22 @@
 ﻿using RandomMediaPlayer.Core.Directory;
 using RandomMediaPlayer.Core.Displayables;
+using RandomMediaPlayer.Core.Displayers.HistoryTracking;
 using System.Diagnostics;
 
 namespace RandomMediaPlayer.Core.Displayers
 {
-    public class ExternalDisplayer : IDisplayer
+    public class ExternalDisplayer : IDisplayer, IHistoryTracking<string>
     {
         private IDisplayable currentDisplayable;
         private Process displayProcess;
         protected IDirectoryPicker directoryPicker;
+        public HistoryTracker<string> HistoryTracker { get; }
+        public string CurrentDisplayableName => null;
 
         public ExternalDisplayer(IDirectoryPicker directoryPicker)
         {
             this.directoryPicker = directoryPicker;
+            HistoryTracker = new HistoryTracker<string>();
         }
 
         public void Hide()
@@ -22,7 +26,7 @@ namespace RandomMediaPlayer.Core.Displayers
         public void Next()
         {
             Hide();
-            currentDisplayable = directoryPicker.GetRandomDisplayable();
+            currentDisplayable = directoryPicker.GetRandomDisplayable(HistoryTracker);
             displayProcess = Display();
         }
         public void Refresh()

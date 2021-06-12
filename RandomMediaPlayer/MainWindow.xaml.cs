@@ -128,6 +128,27 @@ namespace RandomMediaPlayer
 
         private void FullscreenToggler_Click(object sender, RoutedEventArgs e)
         {
+            FullScreenToggle();
+        }
+
+        private void TrackHistory_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            {
+                historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
+            }
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape && isFullScreen)
+            {
+                FullScreenToggle();
+            }
+        }
+
+        private void FullScreenToggle()
+        {
             if (!isFullScreen)
             {
                 WindowStyle = WindowStyle.None;
@@ -139,14 +160,6 @@ namespace RandomMediaPlayer
                 WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Normal;
                 isFullScreen = false;
-            }
-        }
-
-        private void TrackHistory_Click(object sender, RoutedEventArgs e)
-        {
-            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
-            {
-                historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
             }
         }
     }

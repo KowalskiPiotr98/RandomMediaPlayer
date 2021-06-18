@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Random Media Player" Language="1033" Version="0.1.0.0" Manufacturer="Piotr Kowalski" UpgradeCode="4a16ab5b-a9e2-43cc-909e-57eb1cd9f7a5">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <MediaTemplate EmbedCab="yes" />
+    <!--<Icon Id="StartLauncher.exe" SourceFile="..\Start Launcher\Assets\Icon.ico"/>-->
+    <Property Id="ARPPRODUCTICON" Value="RandomMediaPlayer.exe"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+    <WixVariable Id="WixUILicenseRtf" Value="LicenseAgreement.rtf" />
+
+    <Feature Id="ProductFeature" Title="Random Media Player" Level="1">
+      <ComponentGroupRef Id="RMPMainExe" />
+      <ComponentRef Id="ProgramsMenuShortcut"/>
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="Random Media Player" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder"/>
+    </Directory>
+
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="RMPMainExe" Directory="INSTALLFOLDER">
+      <Component Guid="6320982e-4a1a-4a05-b48c-6b459667134c">
+        <File Id="MainExe.exe" Source="..\RandomMediaPlayer\bin\Release\netcoreapp3.1\win-x64\publish\RandomMediaPlayer.exe" KeyPath="yes"></File>
+      </Component>
+    </ComponentGroup>
+    <DirectoryRef Id="ProgramMenuFolder">
+      <Component Id="ProgramsMenuShortcut" Guid="a023f533-7b6a-4caf-9e61-2a87590b2538">
+        <Shortcut Id="ProgramsMenuShortcutFile" Name="Random Media Player" Description="Play your media randomly" Target="[#MainExe.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+        <RegistryValue Root="HKCU" Key="Software\PiotrKowalski\RandomMediaPlayer" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

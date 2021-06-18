@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomMediaPlayer"
         mc:Ignorable="d"
-        Title="Random Media Player" Height="450" Width="800"
+        Title="Random Media Player" Height="600" Width="800"
         Background="Black"
         SizeChanged="Window_SizeChanged"
         KeyDown="Window_KeyDown">
@@ -24,6 +24,7 @@
         </Grid>
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -60,6 +61,7 @@
             <Button x:Name="FullscreenToggler" Grid.Row="6" Margin="10" Width="55" Height="50" Background="Gray" Foreground="White" Click="FullscreenToggler_Click">
                 <TextBlock Text="Toggle fullscreen" TextWrapping="Wrap" TextAlignment="Center"/>
             </Button>
+            <Button x:Name="CheckForUpdates" Grid.Row="7" Margin="0,5,0,0" Width="110" Background="Gray" Foreground="White" Click="CheckForUpdates_Click" Content="Check for updates"/>
         </Grid>
     </Grid>
 </Window>

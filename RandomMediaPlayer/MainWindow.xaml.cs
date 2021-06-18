@@ -5,8 +5,10 @@ using RandomMediaPlayer.Core.Displayers;
 using RandomMediaPlayer.MoviePlayer;
 using RandomMediaPlayer.PhotoShower;
 using RandomMediaPlayer.PhotoShower.PhotosDirectory;
+using RandomMediaPlayer.SelfUpdater.GitHubConnection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -21,9 +23,12 @@ namespace RandomMediaPlayer
         private System.Uri directory;
         private readonly List<IAutoAction> autoActions = new List<IAutoAction>();
         private bool isFullScreen;
+        private readonly UpdateManager updateManager;
         public MainWindow()
         {
             InitializeComponent();
+            updateManager = new UpdateManager(App.Version);
+            CheckForUpdatesAsync(interactive: false).Wait();
         }
 
         private void SelectDir_Click(object sender, RoutedEventArgs e)
@@ -168,6 +173,35 @@ namespace RandomMediaPlayer
         private void Title_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             TitleDisplay.Visibility = Visibility.Collapsed;
+        }
+
+        private async Task CheckForUpdatesAsync(bool interactive)
+        {
+            if (await updateManager.IsUpdateAvailableAsync().ConfigureAwait(false))
+            {
+                var result = MessageBox.Show("There is a new update available, do you want to download it?", "Update available", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.OK)
+                {
+                    if (await updateManager.RunUpdaterAsync().ConfigureAwait(false))
+                    {
+                        App.CurrentApp.Shutdown();
+                    }
+                    else
+                    {
+                        _ = MessageBox.Show("The new update couldn't be installer, please try again later.", "Update installation error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        updateManager.ClearCache();
+                    }
+                }
+            }
+            else if (interactive)
+            {
+                _ = MessageBox.Show("There are no updates available", "No new updates", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            await CheckForUpdatesAsync(interactive: true);
         }
     }
 }

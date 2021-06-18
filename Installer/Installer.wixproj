@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProductVersion>3.10</ProductVersion>
-    <ProjectGuid>d389d497-e461-47e2-926e-d7e81b2ad0e2</ProjectGuid>
+    <ProjectGuid>{4a99ac00-31be-44b5-8c41-6b6f2ed7bc42}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Installer</OutputName>
     <OutputType>Package</OutputType>

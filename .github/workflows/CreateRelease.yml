@@ -1,0 +1,40 @@
+on:
+  push:
+    tags:
+      - v*
+
+name: Upload Release Asset
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
+      - name: Generate exe
+        run: dotnet publish '.\RandomMediaPlayer\RandomMediaPlayer.csproj' -c Release -f netcoreapp3.1 -r win-x64 --self-contained true -p:PublishSingleFile=true
+      - name: Generate msi
+        run: MSBuild.exe .\Installer\Installer.wixproj /p:Configuration=Release -p:Platform=x64
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: true
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./Installer/bin/x64/Release/Installer.msi
+          asset_name: RandomMediaPlayer-win64-installer.msi
+          asset_content_type: application/vnd.microsoft.portable-executable

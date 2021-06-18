@@ -4,12 +4,16 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Version>0.1.0</Version>
+    <Authors>Piotr Kowalski</Authors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RandomMediaPlayer.Actions\RandomMediaPlayer.Actions.csproj" />
     <ProjectReference Include="..\RandomMediaPlayer.MoviePlayer\RandomMediaPlayer.MoviePlayer.csproj" />
     <ProjectReference Include="..\RandomMediaPlayer.PhotoShower\RandomMediaPlayer.PhotoShower.csproj" />
+    <ProjectReference Include="..\RandomMediaPlayer.SelfUpdater\RandomMediaPlayer.SelfUpdater.csproj" />
   </ItemGroup>
 
 </Project>

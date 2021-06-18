@@ -180,7 +180,7 @@ namespace RandomMediaPlayer
             if (await updateManager.IsUpdateAvailableAsync().ConfigureAwait(false))
             {
                 var result = MessageBox.Show("There is a new update available, do you want to download it?", "Update available", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                if (result == MessageBoxResult.OK)
+                if (result == MessageBoxResult.Yes)
                 {
                     if (await updateManager.RunUpdaterAsync().ConfigureAwait(false))
                     {

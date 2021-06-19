@@ -64,7 +64,7 @@ namespace RandomMediaPlayer.Core.Directory
                 var random = new System.Random();
                 displayable = limitedDisplayables.ElementAtOrDefault(random.Next(0, limitedDisplayables.Count()));
             }
-            history.AddToHistory(displayable.Source);
+            history.AddToHistory(displayable?.Source);
             return displayable;
         }
 

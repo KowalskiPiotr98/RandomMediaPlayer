@@ -23,12 +23,15 @@ namespace RandomMediaPlayer
         private System.Uri directory;
         private readonly List<IAutoAction> autoActions = new List<IAutoAction>();
         private bool isFullScreen;
+        private Task updateCheckTask;
         private readonly UpdateManager updateManager;
         public MainWindow()
         {
             InitializeComponent();
             updateManager = new UpdateManager(App.Version);
-            CheckForUpdatesAsync(interactive: false).Wait();
+#if RELEASE
+            updateCheckTask = CheckForUpdatesAsync(interactive: false);
+#endif
         }
 
         private void SelectDir_Click(object sender, RoutedEventArgs e)
@@ -110,6 +113,7 @@ namespace RandomMediaPlayer
             {
                 TrackHistory.Visibility = Visibility.Collapsed;
             }
+            ApplyMinHeight();
             TitleDisplay.Text = displayer?.CurrentDisplayableName;
         }
 
@@ -177,6 +181,11 @@ namespace RandomMediaPlayer
 
         private async Task CheckForUpdatesAsync(bool interactive)
         {
+            if (updateCheckTask != null && !updateCheckTask.IsCompleted)
+            {
+                await updateCheckTask;
+                return;
+            }
             if (await updateManager.IsUpdateAvailableAsync().ConfigureAwait(false))
             {
                 var result = MessageBox.Show("There is a new update available, do you want to download it?", "Update available", MessageBoxButton.YesNo, MessageBoxImage.Information);
@@ -184,7 +193,7 @@ namespace RandomMediaPlayer
                 {
                     if (await updateManager.RunUpdaterAsync().ConfigureAwait(false))
                     {
-                        App.CurrentApp.Shutdown();
+                        Dispatcher.Invoke(() => App.CurrentApp.Shutdown());
                     }
                     else
                     {
@@ -202,6 +211,12 @@ namespace RandomMediaPlayer
         private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
         {
             await CheckForUpdatesAsync(interactive: true);
+        }
+
+        private void ApplyMinHeight()
+        {
+            MenuColumn.UpdateLayout();
+            MinHeight = MenuColumn.ActualHeight + SystemParameters.WindowCaptionHeight + 25; //I have no idea why this 25 is necessary here. That's UI for you I guess.
         }
     }
 }

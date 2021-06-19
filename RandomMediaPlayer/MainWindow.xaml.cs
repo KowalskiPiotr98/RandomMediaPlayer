@@ -113,6 +113,7 @@ namespace RandomMediaPlayer
             {
                 TrackHistory.Visibility = Visibility.Collapsed;
             }
+            ApplyMinHeight();
             TitleDisplay.Text = displayer?.CurrentDisplayableName;
         }
 
@@ -210,6 +211,12 @@ namespace RandomMediaPlayer
         private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
         {
             await CheckForUpdatesAsync(interactive: true);
+        }
+
+        private void ApplyMinHeight()
+        {
+            MenuColumn.UpdateLayout();
+            MinHeight = MenuColumn.ActualHeight + SystemParameters.WindowCaptionHeight + 25; //I have no idea why this 25 is necessary here. That's UI for you I guess.
         }
     }
 }

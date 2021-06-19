@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:RandomMediaPlayer"
         mc:Ignorable="d"
         Title="Random Media Player" Height="600" Width="800"
+        MinHeight="450"
         Background="Black"
         SizeChanged="Window_SizeChanged"
         KeyDown="Window_KeyDown">
@@ -22,7 +23,7 @@
             <TextBlock x:Name="TitleDisplay" HorizontalAlignment="Center" Margin="2" Foreground="White" TextWrapping="Wrap" MouseDown="Title_MouseDown" MaxHeight="50"/>
             <Grid x:Name="DisplayArea" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </Grid>
-        <Grid Grid.Column="1" Margin="10">
+        <Grid Grid.Column="1" Margin="10,0,10,0" x:Name="MenuColumn" VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -61,7 +62,7 @@
             <Button x:Name="FullscreenToggler" Grid.Row="6" Margin="10" Width="55" Height="50" Background="Gray" Foreground="White" Click="FullscreenToggler_Click">
                 <TextBlock Text="Toggle fullscreen" TextWrapping="Wrap" TextAlignment="Center"/>
             </Button>
-            <Button x:Name="CheckForUpdates" Grid.Row="7" Margin="0,5,0,0" Width="110" Background="Gray" Foreground="White" Click="CheckForUpdates_Click" Content="Check for updates"/>
+            <Button x:Name="CheckForUpdates" Grid.Row="7" Margin="0,5,0,5" Width="110" Background="Gray" Foreground="White" Click="CheckForUpdates_Click" Content="Check for updates"/>
         </Grid>
     </Grid>
 </Window>

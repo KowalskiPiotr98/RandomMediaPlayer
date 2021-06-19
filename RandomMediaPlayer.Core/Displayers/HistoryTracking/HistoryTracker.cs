@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
 {
-    public class HistoryTracker<T>
+    public class HistoryTracker<T> where T : class
     {
         private readonly HashSet<T> history = new HashSet<T>();
         private bool isTracking = true;
@@ -49,6 +49,10 @@ namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
             if (!IsTracking)
             {
                 return true;
+            }
+            if (source is null)
+            {
+                return false;
             }
             return history.Add(source);
         }

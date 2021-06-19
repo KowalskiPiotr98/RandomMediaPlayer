@@ -23,13 +23,14 @@ namespace RandomMediaPlayer
         private System.Uri directory;
         private readonly List<IAutoAction> autoActions = new List<IAutoAction>();
         private bool isFullScreen;
+        private Task updateCheckTask;
         private readonly UpdateManager updateManager;
         public MainWindow()
         {
             InitializeComponent();
             updateManager = new UpdateManager(App.Version);
 #if RELEASE
-            CheckForUpdatesAsync(interactive: false).Wait();
+            updateCheckTask = CheckForUpdatesAsync(interactive: false);
 #endif
         }
 
@@ -179,6 +180,11 @@ namespace RandomMediaPlayer
 
         private async Task CheckForUpdatesAsync(bool interactive)
         {
+            if (updateCheckTask != null && !updateCheckTask.IsCompleted)
+            {
+                await updateCheckTask;
+                return;
+            }
             if (await updateManager.IsUpdateAvailableAsync().ConfigureAwait(false))
             {
                 var result = MessageBox.Show("There is a new update available, do you want to download it?", "Update available", MessageBoxButton.YesNo, MessageBoxImage.Information);
@@ -186,7 +192,7 @@ namespace RandomMediaPlayer
                 {
                     if (await updateManager.RunUpdaterAsync().ConfigureAwait(false))
                     {
-                        App.CurrentApp.Shutdown();
+                        Dispatcher.Invoke(() => App.CurrentApp.Shutdown());
                     }
                     else
                     {

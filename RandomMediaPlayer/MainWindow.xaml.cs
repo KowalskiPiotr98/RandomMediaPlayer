@@ -28,7 +28,9 @@ namespace RandomMediaPlayer
         {
             InitializeComponent();
             updateManager = new UpdateManager(App.Version);
+#if RELEASE
             CheckForUpdatesAsync(interactive: false).Wait();
+#endif
         }
 
         private void SelectDir_Click(object sender, RoutedEventArgs e)

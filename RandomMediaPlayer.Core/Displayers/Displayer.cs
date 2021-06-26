@@ -1,13 +1,13 @@
 ﻿using RandomMediaPlayer.Core.Directory;
 using RandomMediaPlayer.Core.Displayables;
-using RandomMediaPlayer.Core.Displayers.HistoryTracking;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using RandomMediaPlayer.HistoryTracking;
 
 namespace RandomMediaPlayer.Core.Displayers
 {
-    public class Displayer : IDisplayer, IHistoryTracking<string>
+    public abstract class Displayer : IDisplayer, IHistoryTracking<string>
     {
         private IDisplayable currentDisplayable;
         protected IDirectoryPicker directoryPicker;
@@ -16,7 +16,7 @@ namespace RandomMediaPlayer.Core.Displayers
         public HistoryTracker<string> HistoryTracker { get; }
         public string CurrentDisplayableName => currentDisplayable?.Source.Split('\\').Last();
 
-        public Displayer(Grid displayArea, UIElement displayElement)
+        protected Displayer(Grid displayArea, UIElement displayElement)
         {
             this.displayArea = displayArea;
             this.displayElement = displayElement;

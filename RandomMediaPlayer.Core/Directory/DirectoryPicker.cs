@@ -1,7 +1,7 @@
 ﻿using RandomMediaPlayer.Core.Displayables;
-using RandomMediaPlayer.Core.Displayers.HistoryTracking;
 using System.Collections.Generic;
 using System.Linq;
+using RandomMediaPlayer.HistoryTracking;
 
 namespace RandomMediaPlayer.Core.Directory
 {

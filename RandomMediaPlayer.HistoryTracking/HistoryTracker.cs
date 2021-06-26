@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
+namespace RandomMediaPlayer.HistoryTracking
 {
     public class HistoryTracker<T> where T : class
     {
-        private readonly HashSet<T> history = new HashSet<T>();
+        private readonly HashSet<T> history;
         private bool isTracking = true;
 
+        public HistoryTracker()
+        {
+            history = new HashSet<T>();
+        }
+
+        public HistoryTracker(IEnumerable<T> storedHistory)
+        {
+            history = storedHistory.ToHashSet();
+        }
+
         /// <summary>
-        /// Indicates whether history is currently being tracket.
+        /// Indicates whether history is currently being tracked.
         /// </summary>
         public bool IsTracking
         {
@@ -68,7 +78,7 @@ namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
         /// </summary>
         /// <param name="collection">Collection to limit</param>
         /// <param name="collectionSelector">Selector by which to select tracked object from collection</param>
-        /// <returns>Collection without tracket items</returns>
+        /// <returns>Collection without tracked items</returns>
         public IEnumerable<U> LimitCollectionToNotInHistory<U>(IEnumerable<U> collection, Func<U,T> collectionSelector)
         {
             return collection.Where(i => !history.Contains(collectionSelector(i)));

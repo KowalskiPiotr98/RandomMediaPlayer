@@ -9,6 +9,6 @@ namespace RandomMediaPlayer.Core.Directory
         void ReadDisplayables();
         IEnumerable<IDisplayable> GetDisplayables();
         IDisplayable GetRandomDisplayable();
-        IDisplayable GetRandomDisplayable(Displayers.HistoryTracking.HistoryTracker<string> history);
+        IDisplayable GetRandomDisplayable(RandomMediaPlayer.HistoryTracking.HistoryTracker<string> history);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Random Media Player" Language="1033" Version="0.1.1.0" Manufacturer="Piotr Kowalski" UpgradeCode="4a16ab5b-a9e2-43cc-909e-57eb1cd9f7a5">
+  <Product Id="*" Name="Random Media Player" Language="1033" Version="0.2.0.0" Manufacturer="Piotr Kowalski" UpgradeCode="4a16ab5b-a9e2-43cc-909e-57eb1cd9f7a5">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"/>
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

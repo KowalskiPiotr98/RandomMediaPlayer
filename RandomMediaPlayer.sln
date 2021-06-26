@@ -17,6 +17,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Inst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomMediaPlayer.SelfUpdater", "RandomMediaPlayer.SelfUpdater\RandomMediaPlayer.SelfUpdater.csproj", "{5D6DD790-BCF4-435B-BCF5-CE96140EA0BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomMediaPlayer.Storage", "RandomMediaPlayer.Storage\RandomMediaPlayer.Storage.csproj", "{88180135-5747-4597-BBD5-8A6A3523A5D4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomMediaPlayer.HistoryTracking", "RandomMediaPlayer.HistoryTracking\RandomMediaPlayer.HistoryTracking.csproj", "{C47B2B28-8A84-44CC-9CE1-581F2B482092}"
 EndProject
 Global

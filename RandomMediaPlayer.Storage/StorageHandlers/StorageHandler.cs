@@ -23,7 +23,6 @@ namespace RandomMediaPlayer.Storage.StorageHandlers
 
         private void EnsureUpToDate()
         {
-            _storageContext.Database.EnsureCreated();
             _storageContext.Database.Migrate();
         }
     }

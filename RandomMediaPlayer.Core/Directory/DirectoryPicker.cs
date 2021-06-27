@@ -11,6 +11,7 @@ namespace RandomMediaPlayer.Core.Directory
         public bool IsEmpty { get => isEmpty; }
         public string[] AllowedExtentions { get; protected set; }
         public System.Uri Directory { get => directory; }
+        public string BasePath => Directory.AbsolutePath;
         protected System.Uri directory;
         protected List<IDisplayable> displayables = null;
 
@@ -45,7 +46,7 @@ namespace RandomMediaPlayer.Core.Directory
             var random = new System.Random();
             return displayables.ElementAtOrDefault(random.Next(0, displayables.Count));
         }
-        public IDisplayable GetRandomDisplayable(HistoryTracker<string> history)
+        public IDisplayable GetRandomDisplayable(HistoryTracker history)
         {
             if (!history.IsTracking)
             {

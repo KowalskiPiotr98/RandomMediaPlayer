@@ -3,8 +3,8 @@
     /// <summary>
     /// Indicates the class implements <see cref="HistoryTracker"/> as a property.
     /// </summary>
-    public interface IHistoryTracking<T> where T : class
+    public interface IHistoryTracking
     {
-        HistoryTracker<T> HistoryTracker { get; }
+        HistoryTracker HistoryTracker { get; }
     }
 }

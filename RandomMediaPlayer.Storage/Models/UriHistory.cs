@@ -22,5 +22,17 @@ namespace RandomMediaPlayer.Storage.Models
         /// </summary>
         [DataType(DataType.DateTime)]
         public DateTime AddedAt { get; set; }
+
+        public UriHistory()
+        {
+
+        }
+
+        public UriHistory(string basePath, string entityName)
+        {
+            BasePath = basePath;
+            EntityName = entityName;
+            AddedAt = DateTime.Now;
+        }
     }
 }

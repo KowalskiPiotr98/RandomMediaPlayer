@@ -12,6 +12,7 @@ namespace RandomMediaPlayer.HistoryTracking
         private readonly HashSet<string> history;
         private bool isTracking = true;
         private readonly HistoryStorageHandler _storageHandler;
+        public int SeenCount => history.Count;
 
         public HistoryTracker(HistoryStorageHandler storageHandler)
         {

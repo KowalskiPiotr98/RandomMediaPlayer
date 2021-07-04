@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using RandomMediaPlayer.HistoryTracking;
 
 namespace RandomMediaPlayer
 {
@@ -48,7 +49,7 @@ namespace RandomMediaPlayer
         private void NextDisplayable_Click(object sender, RoutedEventArgs e)
         {
             displayer?.Next();
-            TitleDisplay.Text = displayer?.CurrentDisplayableName;
+            SetDisplayedTest();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -107,14 +108,24 @@ namespace RandomMediaPlayer
             if (displayer is RandomMediaPlayer.HistoryTracking.IHistoryTracking historyDisplayer)
             {
                 TrackHistory.Visibility = Visibility.Visible;
+                SeenTotalMedia.Visibility = Visibility.Visible;
                 TrackHistory.IsChecked = historyDisplayer.HistoryTracker.IsTracking;
             }
             else
             {
                 TrackHistory.Visibility = Visibility.Collapsed;
+                SeenTotalMedia.Visibility = Visibility.Collapsed;
             }
             ApplyMinHeight();
+            SetDisplayedTest();
+        }
+
+        private void SetDisplayedTest()
+        {
             TitleDisplay.Text = displayer?.CurrentDisplayableName;
+            var seenMedia = ((displayer as IHistoryTracking)?.HistoryTracker?.SeenCount ?? 0).ToString();
+            var totalMedia = (displayer?.DirectoryPicker?.TotalDisplayables ?? 0).ToString();
+            SeenTotalMedia.Text = $"{seenMedia}/{totalMedia}";
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)

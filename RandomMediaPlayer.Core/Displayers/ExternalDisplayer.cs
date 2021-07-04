@@ -11,6 +11,7 @@ namespace RandomMediaPlayer.Core.Displayers
         private IDisplayable currentDisplayable;
         private Process displayProcess;
         protected IDirectoryPicker directoryPicker;
+        public IDirectoryPicker DirectoryPicker => directoryPicker;
         public HistoryTracker HistoryTracker { get; private set; }
         public string CurrentDisplayableName => null;
 

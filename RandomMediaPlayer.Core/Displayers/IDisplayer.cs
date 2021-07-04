@@ -1,4 +1,6 @@
-﻿namespace RandomMediaPlayer.Core.Displayers
+﻿using RandomMediaPlayer.Core.Directory;
+
+namespace RandomMediaPlayer.Core.Displayers
 {
     public interface IDisplayer
     {
@@ -10,5 +12,6 @@
         void ReloadContent();
         void Hide();
         string CurrentDisplayableName { get; }
+        IDirectoryPicker DirectoryPicker { get; }
     }
 }

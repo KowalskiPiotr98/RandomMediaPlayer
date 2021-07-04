@@ -11,6 +11,7 @@ namespace RandomMediaPlayer.Core.Directory
         public bool IsEmpty { get => isEmpty; }
         public string[] AllowedExtentions { get; protected set; }
         public System.Uri Directory { get => directory; }
+        public int TotalDisplayables => displayables.Count;
         public string BasePath => Directory.AbsolutePath;
         protected System.Uri directory;
         protected List<IDisplayable> displayables;

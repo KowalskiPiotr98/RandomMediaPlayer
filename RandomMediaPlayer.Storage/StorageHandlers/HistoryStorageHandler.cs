@@ -78,7 +78,7 @@ namespace RandomMediaPlayer.Storage.StorageHandlers
     {
         public static IEnumerable<string> CreateEnumerableString(this IQueryable<UriHistory> history)
         {
-            return history.Select(h => h.BasePath + h.EntityName).AsEnumerable();
+            return history.Select(h => h.EntityName).AsEnumerable();
         }
     }
 }

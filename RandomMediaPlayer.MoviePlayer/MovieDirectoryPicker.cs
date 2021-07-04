@@ -7,7 +7,7 @@ namespace RandomMediaPlayer.MoviePlayer
     {
         public MovieDirectoryPicker(System.Uri directory) : base(directory)
         {
-            AllowedExtentions = new string[] { "mp4", "ts", "webm" };
+            AllowedExtensions = new string[] { "mp4", "ts", "webm" };
         }
         protected override IDisplayable CreateDisplayableFromLocalPath(string path) => new Movie(path);
     }

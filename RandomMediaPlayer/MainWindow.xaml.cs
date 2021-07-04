@@ -123,7 +123,7 @@ namespace RandomMediaPlayer
         private void SetDisplayedTest()
         {
             TitleDisplay.Text = displayer?.CurrentDisplayableName;
-            var seenMedia = ((displayer as IHistoryTracking)?.HistoryTracker?.SeenCount ?? 0).ToString();
+            var seenMedia = ((displayer as IHistoryTracking)?.HistoryTracker?.GetSeenWithExtensions(displayer?.DirectoryPicker?.AllowedExtensions) ?? 0).ToString();
             var totalMedia = (displayer?.DirectoryPicker?.TotalDisplayables ?? 0).ToString();
             SeenTotalMedia.Text = $"{seenMedia}/{totalMedia}";
         }

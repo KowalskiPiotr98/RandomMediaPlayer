@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Internal;
 using RandomMediaPlayer.Storage.StorageHandlers;
 
 namespace RandomMediaPlayer.HistoryTracking
@@ -12,7 +13,6 @@ namespace RandomMediaPlayer.HistoryTracking
         private readonly HashSet<string> history;
         private bool isTracking = true;
         private readonly HistoryStorageHandler _storageHandler;
-        public int SeenCount => history.Count;
 
         public HistoryTracker(HistoryStorageHandler storageHandler)
         {
@@ -89,6 +89,11 @@ namespace RandomMediaPlayer.HistoryTracking
         public IEnumerable<TU> LimitCollectionToNotInHistory<TU>(IEnumerable<TU> collection, Func<TU,string> collectionSelector)
         {
             return collection.Where(i => !history.Contains(collectionSelector(i)));
+        }
+
+        public int GetSeenWithExtensions(string[] extensions)
+        {
+            return history.Count(h => extensions.Any(h.EndsWith));
         }
     }
 }

@@ -7,10 +7,12 @@ using RandomMediaPlayer.PhotoShower;
 using RandomMediaPlayer.PhotoShower.PhotosDirectory;
 using RandomMediaPlayer.SelfUpdater.GitHubConnection;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using RandomMediaPlayer.HistoryTracking;
 
 namespace RandomMediaPlayer
 {
@@ -48,7 +50,7 @@ namespace RandomMediaPlayer
         private void NextDisplayable_Click(object sender, RoutedEventArgs e)
         {
             displayer?.Next();
-            TitleDisplay.Text = displayer?.CurrentDisplayableName;
+            SetDisplayedTest();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -104,17 +106,27 @@ namespace RandomMediaPlayer
             {
                 _ = action.Register(displayer);
             }
-            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            if (displayer is RandomMediaPlayer.HistoryTracking.IHistoryTracking historyDisplayer)
             {
                 TrackHistory.Visibility = Visibility.Visible;
+                SeenTotalMedia.Visibility = Visibility.Visible;
                 TrackHistory.IsChecked = historyDisplayer.HistoryTracker.IsTracking;
             }
             else
             {
                 TrackHistory.Visibility = Visibility.Collapsed;
+                SeenTotalMedia.Visibility = Visibility.Collapsed;
             }
             ApplyMinHeight();
+            SetDisplayedTest();
+        }
+
+        private void SetDisplayedTest()
+        {
             TitleDisplay.Text = displayer?.CurrentDisplayableName;
+            var seenMedia = ((displayer as IHistoryTracking)?.HistoryTracker?.GetSeenWithExtensions(displayer?.DirectoryPicker?.AllowedExtensions) ?? 0).ToString();
+            var totalMedia = (displayer?.DirectoryPicker?.TotalDisplayables ?? 0).ToString();
+            SeenTotalMedia.Text = $"{seenMedia}/{totalMedia}";
         }
 
         private void RefreshDir_Click(object sender, RoutedEventArgs e)
@@ -144,7 +156,7 @@ namespace RandomMediaPlayer
 
         private void TrackHistory_Click(object sender, RoutedEventArgs e)
         {
-            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            if (displayer is RandomMediaPlayer.HistoryTracking.IHistoryTracking historyDisplayer)
             {
                 historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
             }
@@ -217,6 +229,22 @@ namespace RandomMediaPlayer
         {
             MenuColumn.UpdateLayout();
             MinHeight = MenuColumn.ActualHeight + SystemParameters.WindowCaptionHeight + 25; //I have no idea why this 25 is necessary here. That's UI for you I guess.
+        }
+
+        private void AboutMe_OnClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                $"Random Media Player, version: {App.Version}\nWould you like to see the GitHub page?",
+                "About me", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = "https://github.com/KowalskiPiotr98/RandomMediaPlayer",
+                    UseShellExecute = true
+                });
+            }
         }
     }
 }

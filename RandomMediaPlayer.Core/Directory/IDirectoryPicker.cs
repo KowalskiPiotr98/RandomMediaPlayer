@@ -7,8 +7,11 @@ namespace RandomMediaPlayer.Core.Directory
     {
         bool IsEmpty { get; }
         void ReadDisplayables();
+        string BasePath { get; }
+        int TotalDisplayables { get; }
         IEnumerable<IDisplayable> GetDisplayables();
+        string[] AllowedExtensions { get; }
         IDisplayable GetRandomDisplayable();
-        IDisplayable GetRandomDisplayable(Displayers.HistoryTracking.HistoryTracker<string> history);
+        IDisplayable GetRandomDisplayable(RandomMediaPlayer.HistoryTracking.HistoryTracker history);
     }
 }

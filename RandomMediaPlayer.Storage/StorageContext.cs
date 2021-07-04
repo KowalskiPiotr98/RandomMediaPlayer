@@ -5,7 +5,7 @@ namespace RandomMediaPlayer.Storage
 {
     public class StorageContext : DbContext
     {
-        public StorageContext() : this(new DbContextOptionsBuilder().UseSqlite("Data source=data.db").Options)
+        public StorageContext() : this(new DbContextOptionsBuilder().UseSqlite($"Data source={FileStorage.FileStoragePath}\\data.db").Options)
         {
 
         }

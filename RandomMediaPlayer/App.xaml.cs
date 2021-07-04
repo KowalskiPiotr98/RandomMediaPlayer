@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows;
+using RandomMediaPlayer.Storage;
 
 namespace RandomMediaPlayer
 {
@@ -22,7 +23,9 @@ namespace RandomMediaPlayer
         public static App CurrentApp { get; private set; }
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            FileStorage.EnsureFileStructureIsPresent();
             CurrentApp = this;
         }
+
     }
 }

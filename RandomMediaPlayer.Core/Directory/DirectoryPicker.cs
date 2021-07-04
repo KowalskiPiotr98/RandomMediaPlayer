@@ -1,7 +1,7 @@
 ﻿using RandomMediaPlayer.Core.Displayables;
-using RandomMediaPlayer.Core.Displayers.HistoryTracking;
 using System.Collections.Generic;
 using System.Linq;
+using RandomMediaPlayer.HistoryTracking;
 
 namespace RandomMediaPlayer.Core.Directory
 {
@@ -11,8 +11,9 @@ namespace RandomMediaPlayer.Core.Directory
         public bool IsEmpty { get => isEmpty; }
         public string[] AllowedExtentions { get; protected set; }
         public System.Uri Directory { get => directory; }
+        public string BasePath => Directory.AbsolutePath;
         protected System.Uri directory;
-        protected List<IDisplayable> displayables = null;
+        protected List<IDisplayable> displayables;
 
         protected DirectoryPicker(System.Uri directory)
         {
@@ -45,7 +46,7 @@ namespace RandomMediaPlayer.Core.Directory
             var random = new System.Random();
             return displayables.ElementAtOrDefault(random.Next(0, displayables.Count));
         }
-        public IDisplayable GetRandomDisplayable(HistoryTracker<string> history)
+        public IDisplayable GetRandomDisplayable(HistoryTracker history)
         {
             if (!history.IsTracking)
             {
@@ -54,7 +55,8 @@ namespace RandomMediaPlayer.Core.Directory
             DisplayablesReadCheck();
             var limitedDisplayables = history.LimitCollectionToNotInHistory(displayables, s => s.Source);
             IDisplayable displayable;
-            if (!limitedDisplayables.Any())
+            var limitedDisplayablesList = limitedDisplayables.ToList();
+            if (!limitedDisplayablesList.Any())
             {
                 history.Clear();
                 displayable = GetRandomDisplayable();
@@ -62,7 +64,7 @@ namespace RandomMediaPlayer.Core.Directory
             else
             {
                 var random = new System.Random();
-                displayable = limitedDisplayables.ElementAtOrDefault(random.Next(0, limitedDisplayables.Count()));
+                displayable = limitedDisplayablesList.ElementAtOrDefault(random.Next(0, limitedDisplayablesList.Count));
             }
             history.AddToHistory(displayable?.Source);
             return displayable;

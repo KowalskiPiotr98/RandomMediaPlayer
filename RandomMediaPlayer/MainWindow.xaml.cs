@@ -104,7 +104,7 @@ namespace RandomMediaPlayer
             {
                 _ = action.Register(displayer);
             }
-            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            if (displayer is RandomMediaPlayer.HistoryTracking.IHistoryTracking historyDisplayer)
             {
                 TrackHistory.Visibility = Visibility.Visible;
                 TrackHistory.IsChecked = historyDisplayer.HistoryTracker.IsTracking;
@@ -144,7 +144,7 @@ namespace RandomMediaPlayer
 
         private void TrackHistory_Click(object sender, RoutedEventArgs e)
         {
-            if (displayer is Core.Displayers.HistoryTracking.IHistoryTracking<string> historyDisplayer)
+            if (displayer is RandomMediaPlayer.HistoryTracking.IHistoryTracking historyDisplayer)
             {
                 historyDisplayer.HistoryTracker.IsTracking = TrackHistory.IsChecked ?? false;
             }

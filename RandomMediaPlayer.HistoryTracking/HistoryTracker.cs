@@ -2,16 +2,31 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
+using RandomMediaPlayer.Storage.StorageHandlers;
 
-namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
+namespace RandomMediaPlayer.HistoryTracking
 {
-    public class HistoryTracker<T> where T : class
+    public class HistoryTracker
     {
-        private readonly HashSet<T> history = new HashSet<T>();
+        private readonly HashSet<string> history;
         private bool isTracking = true;
+        private readonly HistoryStorageHandler _storageHandler;
+
+        public HistoryTracker(HistoryStorageHandler storageHandler)
+        {
+            this._storageHandler = storageHandler;
+            history = _storageHandler.GetAllHistory().ToHashSet();
+        }
+
+        public HistoryTracker(IEnumerable<string> storedHistory, HistoryStorageHandler storageHandler)
+        {
+            history = storedHistory.ToHashSet();
+            this._storageHandler = storageHandler;
+        }
 
         /// <summary>
-        /// Indicates whether history is currently being tracket.
+        /// Indicates whether history is currently being tracked.
         /// </summary>
         public bool IsTracking
         {
@@ -20,7 +35,7 @@ namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
             {
                 if (!value)
                 {
-                    Clear();
+                    Clear().Wait();
                 }
                 isTracking = value;
             }
@@ -28,13 +43,13 @@ namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
         /// <summary>
         /// Read only list with display history
         /// </summary>
-        public IReadOnlyCollection<T> SourceHistory => history.ToImmutableHashSet();
+        public IReadOnlyCollection<string> SourceHistory => history.ToImmutableHashSet();
         /// <summary>
         /// Checks whether selected item was already displayed
         /// </summary>
         /// <param name="source">Source of the element</param>
         /// <returns>True if the item was already displayed, false otherwise</returns>
-        public bool WasDisplayed(T source)
+        public bool WasDisplayed(string source)
         {
             return history.Contains(source);
         }
@@ -44,7 +59,7 @@ namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
         /// <param name="source">Item to add to history</param>
         /// <remarks>If tracking is disabled, true is always returned</remarks>
         /// <returns>True if the item was added correctly, false otherwise (for example if the item was already present in history)</returns>
-        public bool AddToHistory(T source)
+        public async Task<bool> AddToHistory(string source)
         {
             if (!IsTracking)
             {
@@ -54,22 +69,23 @@ namespace RandomMediaPlayer.Core.Displayers.HistoryTracking
             {
                 return false;
             }
-            return history.Add(source);
+            return history.Add(source) && await _storageHandler.TryAddToHistoryAsync(source);
         }
         /// <summary>
         /// Clears display history
         /// </summary>
-        public void Clear()
+        public async Task Clear()
         {
             history.Clear();
+            await _storageHandler.ClearHistoryAsync();
         }
         /// <summary>
         /// Limits collection to only untracked items
         /// </summary>
         /// <param name="collection">Collection to limit</param>
         /// <param name="collectionSelector">Selector by which to select tracked object from collection</param>
-        /// <returns>Collection without tracket items</returns>
-        public IEnumerable<U> LimitCollectionToNotInHistory<U>(IEnumerable<U> collection, Func<U,T> collectionSelector)
+        /// <returns>Collection without tracked items</returns>
+        public IEnumerable<TU> LimitCollectionToNotInHistory<TU>(IEnumerable<TU> collection, Func<TU,string> collectionSelector)
         {
             return collection.Where(i => !history.Contains(collectionSelector(i)));
         }

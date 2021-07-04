@@ -8,6 +8,7 @@
     <Authors>Piotr Kowalski</Authors>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <PackageVersion>0.2.0</PackageVersion>
+    <AssemblyVersion>0.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

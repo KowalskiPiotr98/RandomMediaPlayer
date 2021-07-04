@@ -7,6 +7,7 @@ using RandomMediaPlayer.PhotoShower;
 using RandomMediaPlayer.PhotoShower.PhotosDirectory;
 using RandomMediaPlayer.SelfUpdater.GitHubConnection;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -228,6 +229,22 @@ namespace RandomMediaPlayer
         {
             MenuColumn.UpdateLayout();
             MinHeight = MenuColumn.ActualHeight + SystemParameters.WindowCaptionHeight + 25; //I have no idea why this 25 is necessary here. That's UI for you I guess.
+        }
+
+        private void AboutMe_OnClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                $"Random Media Player, version: {App.Version}\nWould you like to see the GitHub page?",
+                "About me", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = "https://github.com/KowalskiPiotr98/RandomMediaPlayer",
+                    UseShellExecute = true
+                });
+            }
         }
     }
 }

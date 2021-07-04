@@ -14,6 +14,7 @@ namespace RandomMediaPlayer.Core.Displayers
         protected IDirectoryPicker directoryPicker;
         protected Grid displayArea;
         protected UIElement displayElement;
+        public IDirectoryPicker DirectoryPicker => directoryPicker;
         public HistoryTracker HistoryTracker { get; private set; }
         public string CurrentDisplayableName => currentDisplayable?.Source.Split('\\').Last();
 

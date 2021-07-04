@@ -7,7 +7,7 @@ namespace RandomMediaPlayer.PhotoShower.PhotosDirectory
     {
         public PhotoDirectoryPicker(System.Uri directory) : base(directory)
         {
-            AllowedExtentions = new string[] { "jpg", "png", "bmp" };
+            AllowedExtensions = new string[] { "jpg", "png", "bmp" };
         }
 
         protected override IDisplayable CreateDisplayableFromLocalPath(string path) => new Photo(path);

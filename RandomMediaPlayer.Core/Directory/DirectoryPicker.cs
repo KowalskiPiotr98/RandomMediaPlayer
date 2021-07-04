@@ -9,21 +9,22 @@ namespace RandomMediaPlayer.Core.Directory
     {
         private bool isEmpty;
         public bool IsEmpty { get => isEmpty; }
-        public string[] AllowedExtentions { get; protected set; }
+        public string[] AllowedExtensions { get; protected set; }
         public System.Uri Directory { get => directory; }
+        public int TotalDisplayables => displayables.Count;
         public string BasePath => Directory.AbsolutePath;
         protected System.Uri directory;
         protected List<IDisplayable> displayables;
 
         protected DirectoryPicker(System.Uri directory)
         {
-            AllowedExtentions = System.Array.Empty<string>();
+            AllowedExtensions = System.Array.Empty<string>();
             this.directory = directory;
         }
 
         public void ReadDisplayables()
         {
-            var files = System.IO.Directory.GetFiles(directory.LocalPath).Where(name => AllowedExtentions.Contains(name.Split('.').Last().ToLower())).ToList();
+            var files = System.IO.Directory.GetFiles(directory.LocalPath).Where(name => AllowedExtensions.Contains(name.Split('.').Last().ToLower())).ToList();
             var tempDisplayables = new List<IDisplayable>(files.Count);
             isEmpty = true;
             foreach (var file in files)
@@ -53,6 +54,10 @@ namespace RandomMediaPlayer.Core.Directory
                 return GetRandomDisplayable();
             }
             DisplayablesReadCheck();
+            if (!displayables.Any())
+            {
+                return null;
+            }
             var limitedDisplayables = history.LimitCollectionToNotInHistory(displayables, s => s.Source);
             IDisplayable displayable;
             var limitedDisplayablesList = limitedDisplayables.ToList();

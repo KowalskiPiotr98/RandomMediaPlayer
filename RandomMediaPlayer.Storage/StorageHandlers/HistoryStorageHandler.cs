@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +46,7 @@ namespace RandomMediaPlayer.Storage.StorageHandlers
                 await _storageContext.SaveChangesAsync();
                 return true;
             }
-            catch (DbException e)
+            catch (DbException)
             {
                 return false;
             }

@@ -69,7 +69,7 @@ namespace RandomMediaPlayer.HistoryTracking
             {
                 return false;
             }
-            return history.Add(source) && await _storageHandler.TryAddToHistoryAsync(source.ToString());
+            return history.Add(source) && await _storageHandler.TryAddToHistoryAsync(source);
         }
         /// <summary>
         /// Clears display history
@@ -85,7 +85,7 @@ namespace RandomMediaPlayer.HistoryTracking
         /// <param name="collection">Collection to limit</param>
         /// <param name="collectionSelector">Selector by which to select tracked object from collection</param>
         /// <returns>Collection without tracked items</returns>
-        public IEnumerable<U> LimitCollectionToNotInHistory<U>(IEnumerable<U> collection, Func<U,string> collectionSelector)
+        public IEnumerable<TU> LimitCollectionToNotInHistory<TU>(IEnumerable<TU> collection, Func<TU,string> collectionSelector)
         {
             return collection.Where(i => !history.Contains(collectionSelector(i)));
         }
